@@ -1,0 +1,16 @@
+/* Header Styles */
+
+.header {
+    padding: 20px 0;
+    border-bottom: 3px solid var(--atari-orange);
+    background: rgba(139, 69, 19, 0.8);
+    position: relative;
+    z-index: 100;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 40px;
+}

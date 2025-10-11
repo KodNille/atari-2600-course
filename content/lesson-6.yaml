@@ -1,0 +1,18 @@
+lesson:
+  number: 6
+  title: "Input & Controllers"
+  subtitle: "Reading joystick and paddle input"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "🕹️ Controller Input"
+    content: |
+      Learn to read input from joysticks, paddles, and other controllers.
+
+navigation:
+  previous:
+    title: "Previous: Sound & Music"
+    url: "lesson.html?id=5"
+  next:
+    title: "Next: Collision Detection"
+    url: "lesson.html?id=7"

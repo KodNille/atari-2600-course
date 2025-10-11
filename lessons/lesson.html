@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Lesson - Atari 2600 Course</title>
+    <!-- Base styles -->
+    <link rel="stylesheet" href="../css/base.css">
+    <!-- Header components -->
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/logo.css">
+    <link rel="stylesheet" href="../css/navigation.css">
+    <!-- Page components -->
+    <link rel="stylesheet" href="../css/main-content.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <!-- Lesson-specific -->
+    <link rel="stylesheet" href="../css/lesson-layout.css">
+    <link rel="stylesheet" href="../css/video.css">
+    <link rel="stylesheet" href="../css/code-blocks.css">
+    <!-- Responsive -->
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="logo">
+                    <h1>ATARI 2600 <span class="subtitle">Game Development Course</span></h1>
+                </div>
+                <a href="../login.html" class="login-button">Login</a>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <button class="nav-toggle" id="navToggle">☰</button>
+                <ul class="nav-list">
+                    <li><a href="../index.html" class="nav-link">Home</a></li>
+                    <li><a href="lesson.html?id=1" class="nav-link">Lesson 1</a></li>
+                    <li><a href="lesson.html?id=2" class="nav-link">Lesson 2</a></li>
+                    <li><a href="lesson.html?id=3" class="nav-link">Lesson 3</a></li>
+                    <li><a href="lesson.html?id=4" class="nav-link">Lesson 4</a></li>
+                    <li><a href="lesson.html?id=5" class="nav-link">Lesson 5</a></li>
+                    <li><a href="lesson.html?id=6" class="nav-link">Lesson 6</a></li>
+                    <li><a href="lesson.html?id=7" class="nav-link">Lesson 7</a></li>
+                    <li><a href="lesson.html?id=8" class="nav-link">Lesson 8</a></li>
+                    <li><a href="lesson.html?id=9" class="nav-link">Lesson 9</a></li>
+                    <li><a href="lesson.html?id=10" class="nav-link">Lesson 10</a></li>
+                    <li><a href="lesson.html?id=11" class="nav-link">Lesson 11</a></li>
+                    <li><a href="lesson.html?id=12" class="nav-link">Lesson 12</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="lesson-content">
+            <div class="loading-indicator" id="loadingIndicator" style="text-align: center; padding: 100px 0; color: var(--atari-orange); font-size: 1.5rem;">
+                ⚡ LOADING LESSON DATA ⚡
+            </div>
+            
+            <div id="lessonContainer" style="display: none;">
+                <div class="lesson-header">
+                    <h1 class="lesson-title" id="lessonTitle">Loading...</h1>
+                    <p class="lesson-subtitle" id="lessonSubtitle">Please wait...</p>
+                </div>
+
+                <div class="video-container" id="videoContainer">
+                    <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+
+                <div id="sectionsContainer">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+
+                <div class="lesson-navigation" id="navigationContainer">
+                    <div style="display: flex; justify-content: space-between; margin-top: 40px; padding: 20px 0; border-top: 2px solid var(--atari-orange);">
+                        <a href="#" id="prevLink" class="lesson-link">← Previous</a>
+                        <a href="#" id="nextLink" class="lesson-link">Next →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="errorContainer" style="display: none; text-align: center; padding: 100px 0;">
+                <h2 style="color: var(--atari-red); font-size: 1.5rem; margin-bottom: 20px;">⚠️ ERROR LOADING LESSON ⚠️</h2>
+                <p style="color: var(--atari-light); font-size: 1rem;">Could not load lesson data. Please check the lesson ID and try again.</p>
+                <a href="../index.html" class="lesson-link" style="margin-top: 20px; display: inline-block;">← Back to Home</a>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Atari 2600 Game Development Course. Ready Player One!</p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/lesson-loader.js"></script>
+</body>
+</html>

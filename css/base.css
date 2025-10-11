@@ -1,0 +1,77 @@
+/* Base Variables and Global Styles */
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Variables */
+:root {
+    --atari-brown: #8B4513;
+    --atari-orange: #FF6600;
+    --atari-yellow: #FFD700;
+    --atari-red: #DC143C;
+    --atari-dark: #2F1B14;
+    --atari-light: #F5DEB3;
+    --retro-green: #00FF00;
+    --retro-blue: #0080FF;
+    --scan-line: rgba(0, 255, 0, 0.03);
+    --pixel-font: 'Press Start 2P', monospace;
+    --readable-font: 'Consolas', 'Monaco', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
+}
+
+/* Body and Background */
+body {
+    font-family: var(--pixel-font);
+    background: linear-gradient(45deg, var(--atari-dark), #1a0f0a);
+    color: var(--atari-light);
+    line-height: 1.6;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Scanlines Effect */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--scan-line) 2px,
+        var(--scan-line) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+    animation: flicker 0.15s infinite linear alternate;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    100% { opacity: 0.97; }
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6, .logo, .nav-link, .lesson-link, .copy-btn, button {
+    font-family: var(--pixel-font);
+}
+
+p, li {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    font-family: var(--readable-font);
+    font-weight: 500;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+}

@@ -1,0 +1,23 @@
+lesson:
+  number: 5
+  title: "Sound & Music"
+  subtitle: "Programming audio with the TIA"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "🔊 TIA Audio Programming"
+    content: |
+      Master the two-channel audio system of the Atari 2600.
+    list:
+      - "Audio frequency control"
+      - "Waveform types and distortion"
+      - "Creating sound effects"
+      - "Simple music composition"
+
+navigation:
+  previous:
+    title: "Previous: Sprites & Players"
+    url: "lesson.html?id=4"
+  next:
+    title: "Next: Input & Controllers"
+    url: "lesson.html?id=6"

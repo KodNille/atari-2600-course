@@ -1,0 +1,18 @@
+lesson:
+  number: 8
+  title: "Game Logic"
+  subtitle: "State machines and game flow"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "⚙️ Game State Management"
+    content: |
+      Organize complex game logic with state machines.
+
+navigation:
+  previous:
+    title: "Previous: Collision Detection"
+    url: "lesson.html?id=7"
+  next:
+    title: "Next: Memory Management"
+    url: "lesson.html?id=9"

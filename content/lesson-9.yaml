@@ -1,0 +1,18 @@
+lesson:
+  number: 9
+  title: "Memory Management"
+  subtitle: "Working within 128 bytes of RAM"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "💾 Optimizing Memory Usage"
+    content: |
+      Master the art of working with extremely limited RAM.
+
+navigation:
+  previous:
+    title: "Previous: Game Logic"
+    url: "lesson.html?id=8"
+  next:
+    title: "Next: Advanced Techniques"
+    url: "lesson.html?id=10"

@@ -1,0 +1,95 @@
+/* Responsive Design Media Queries */
+
+/* Large screens - 7 columns */
+@media (min-width: 1400px) {
+    .nav-list {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+/* Medium-large screens - 5 columns */
+@media (min-width: 1100px) and (max-width: 1399px) {
+    .nav-list {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* Medium screens - 4 columns */
+@media (min-width: 900px) and (max-width: 1099px) {
+    .nav-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Small-medium screens - 3 columns */
+@media (min-width: 769px) and (max-width: 899px) {
+    .nav-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Mobile screens */
+@media (max-width: 768px) {
+    /* Header adjustments */
+    .header-top {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .logo h1 {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    
+    .logo h1 .subtitle {
+        font-size: 0.6rem;
+    }
+    
+    /* Mobile navigation */
+    .nav-toggle {
+        display: block;
+    }
+    
+    .nav-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(139, 69, 19, 0.95);
+        grid-template-columns: 1fr;
+        padding: 20px;
+        border: 2px solid var(--atari-orange);
+        z-index: 1000;
+    }
+    
+    .nav-list.active {
+        display: grid;
+    }
+    
+    /* Hero adjustments */
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    /* Grid adjustments */
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lessons {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Lesson page adjustments */
+    .lesson-title {
+        font-size: 1.5rem;
+    }
+}

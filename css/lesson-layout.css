@@ -1,0 +1,65 @@
+/* Lesson Page Layout */
+
+.lesson-content {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+.lesson-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.lesson-title {
+    font-size: 2rem;
+    color: var(--atari-orange);
+    text-shadow: 3px 3px 0px var(--atari-red);
+    margin-bottom: 15px;
+}
+
+p.lesson-subtitle {
+    color: var(--atari-yellow);
+    font-size: 1.5rem;
+}
+
+.lesson-section {
+    margin: 60px 0;
+}
+
+.lesson-section h3 {
+    color: var(--atari-orange);
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--atari-orange);
+    padding-bottom: 15px;
+}
+
+.lesson-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    font-family: var(--readable-font);
+}
+
+.lesson-content p {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.lesson-content ul, .lesson-content ol {
+    font-size: 1rem;
+    line-height: 1.8;
+    font-family: var(--readable-font);
+}
+
+.lesson-image {
+    max-width: 100%;
+    height: auto;
+    border: 3px solid var(--atari-orange);
+    margin: 20px 0;
+    border-radius: 5px;
+    filter: sepia(20%) contrast(1.2);
+}

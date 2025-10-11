@@ -1,0 +1,118 @@
+lesson:
+  number: 2
+  title: "CRTs: How They Work"
+  subtitle: "The fundamentals of raster scanning and analog video"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "🔌 How a CRT displays an image"
+    content: |
+      Cathode-ray tube (CRT) televisions draw pictures one line at a
+      time. An electron beam scans left to right to paint a single
+      horizontal line (a scanline), then retraces back to the left and
+      draws the next line slightly lower. After reaching the bottom, the
+      beam is blanked and steered back to the top to begin the next
+      frame.
+
+      The beam’s intensity and color are modulated as it moves, exciting
+      phosphors on the glass. Because the beam never “stops,” the video
+      signal must be produced in real time and kept in perfect sync with
+      the display’s timing.
+
+  - title: "📏 What are scanlines and the beam?"
+    content: |
+      A scanline is one horizontal sweep of the beam across the screen.
+      Classic raster systems do not rely on a full framebuffer. The
+      video signal supplies pixel information in the exact moment the
+      beam is painting that part of the screen. This tight coupling of
+      timing and drawing is sometimes called “racing the beam.”
+    list:
+      - "Beam: the moving electron spot that paints the image"
+      - "Scanline: one horizontal pass of the beam"
+      - "HSYNC: timing pulse that starts each new line"
+      - "VSYNC: timing pulses that start a new frame"
+      - "Horizontal blanking: beam is hidden during retrace to the left"
+      - "Vertical blanking: beam is hidden while returning to the top"
+
+  - title: "⏱️ NTSC and PAL timing at a glance"
+    content: |
+      In NTSC regions, a typical progressive raster frame contains about
+      262 lines at roughly 60 Hz. PAL regions typically refresh around
+      50 Hz with about 312 lines. The exact visible portion versus the
+      blanking intervals can vary by equipment and adjustments, but the
+      high level structure is similar:
+    ordered_list:
+      - "A short vertical sync interval to begin a new frame"
+      - "A vertical blanking interval while the beam returns to the top"
+      - "A visible region drawn line by line across the screen"
+      - "An overscan region near the bottom before the next frame"
+    content_after_code: |
+      While counts differ between standards, the concepts of sync,
+      blanking, and visible drawing are universal to raster CRTs.
+
+  - title: "🧰 Video timing signals and intervals"
+    content: |
+      Several pieces work together to make a stable raster image:
+    list:
+      - "Horizontal sync (HSYNC): pulses that start each scanline"
+      - "Front/back porch: brief intervals that provide timing margins
+        around the visible portion of a line"
+      - "Horizontal blanking: the beam is off as it retraces left"
+      - "Vertical sync (VSYNC): pulses that mark the start of a frame"
+      - "Vertical blanking: the beam is off as it returns to the top"
+      - "Overscan/underscan: regions that may be hidden by the bezel or
+        display adjustments"
+
+  - title: "🧠 Why understanding CRTs matters"
+    content: |
+      Knowing how raster displays are generated helps you reason about
+      artifacts, calibrate equipment, and interpret retro signals. It is
+      also useful when configuring scalers, emulators, and capture gear.
+    list:
+      - "Artifacts: rolling, tearing, shimmer, or moiré from timing
+        issues or scaling"
+      - "Phosphor persistence: glow trails and motion characteristics"
+      - "Geometry: barrel or pincushion distortion and convergence"
+      - "Color encoding: differences between composite, S-Video, and
+        component connections"
+
+  - title: "📋 A typical frame structure"
+    content: |
+      A stable frame follows a repeated rhythm. A short vertical sync
+      sequence signals the start of a frame. Then the vertical blanking
+      interval allows the beam to move back to the top while remaining
+      dark. After that, the visible region is drawn line by line across
+      the screen. Finally, an overscan area near the bottom leads into
+      the next frame. Consistent timing is essential for a stable image.
+
+  - title: "📚 Key terms to remember"
+    list:
+      - "Scanline — one horizontal sweep of the beam"
+      - "Beam — the electron stream painting the image"
+      - "HSYNC — pulse that starts a new scanline"
+      - "VSYNC — pulses that start a new frame"
+      - "VBLANK — beam hidden; safe time for game logic"
+      - "Overscan — lines after drawing, before next frame"
+      - "Racing the beam — generating video in lockstep with the beam"
+
+  - title: "🎯 Assignment"
+    content: |
+      Explore timing concepts without writing code yet. Watch footage of
+      color band tests and rolling screens to see how timing errors look
+      on a CRT. Then answer the prompts below.
+    ordered_list:
+      - "Describe the difference between VSYNC and VBLANK in one or two
+        sentences"
+      - "Sketch a 262-line NTSC frame and label VSYNC, VBLANK, visible,
+        and overscan"
+      - "List two visible artifacts caused by incorrect timing and what
+        likely went wrong"
+      - "Summarize how PAL timing differs from NTSC in one paragraph"
+
+navigation:
+  previous:
+    title: "Previous: Introduction"
+    url: "lesson.html?id=1"
+  next:
+    title: "Next: TIA Graphics"
+    url: "lesson.html?id=3"

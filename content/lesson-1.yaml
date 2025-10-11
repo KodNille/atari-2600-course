@@ -1,0 +1,77 @@
+lesson:
+  number: 1
+  title: "How Atari Happened"
+  subtitle: "From wild arcade dreams to the VCS, the crash, and the classics that defined an era"
+  video_url: "https://www.youtube.com/embed/C0DPdy98e4c"
+
+sections:
+  - title: "🎮 The Backstory: Before the 2600"
+    content: |
+      Atari began with two engineers and a big idea. In 1972, Nolan Bushnell and Ted Dabney founded Atari after experimenting with early coin‑op games like Computer Space. Their breakout hit, Pong, proved that simple, approachable gameplay could captivate millions. That arcade success gave Atari the vision—and the cash—to try something even bolder: bringing video games into the living room.
+
+  - title: "🛠️ Designing the VCS (a.k.a. Atari 2600)"
+    content: |
+      Internally code‑named “Stella,” the Atari Video Computer System (VCS) aimed to be a flexible, affordable console powered by plug‑in cartridges. Instead of building a console for a single built‑in game, Atari wanted a machine that could evolve with new ideas.
+      
+      Key ideas behind the design were:
+    list:
+      - "Cartridge‑based system so new games could be sold without new hardware"
+      - "Low‑cost CPU (MOS 6507) and a custom graphics+sound chip (TIA)"
+      - "Tiny working memory (128 bytes of RAM!), pushing developers to invent clever tricks"
+      - "A philosophy of ‘racing the beam’—drawing each scanline as the TV refreshed"
+
+  - title: "� Launch, Struggles, and Breakthroughs"
+    content: |
+      The VCS launched in 1977. Early sales were modest, but the floodgates opened when home conversions of arcade hits arrived—especially Space Invaders in 1980. Retailers embraced the cartridge model, third‑party publishers emerged, and by 1982 the VCS (rebranded as the Atari 2600) dominated living rooms worldwide.
+    ordered_list:
+      - "1977 — VCS launches with a lineup including Combat"
+      - "1979 — Activision forms, created by ex‑Atari developers"
+      - "1980 — Space Invaders on VCS ignites a sales boom"
+      - "1982 — Massive growth, soaring cartridge sales, widespread licensing"
+
+  - title: "🌊 Third‑Party Wave and Iconic Games"
+    content: |
+      The 2600’s library exploded thanks to in‑house teams and independent studios. Despite tight hardware limits, developers delivered inventive gameplay and memorable worlds.
+    list:
+      - "Adventure — pioneering action‑adventure with the famous Easter egg"
+      - "Pitfall! — platforming perfected by Activision’s David Crane"
+      - "Yars’ Revenge — an original Atari classic by Howard Scott Warshaw"
+      - "River Raid — smooth scrolling action from Carol Shaw"
+      - "Missile Command, Asteroids, Breakout — definitive home conversions"
+      - "Combat — the pack‑in that introduced head‑to‑head play at home"
+
+  - title: "📉 The 1983 Crash"
+    content: |
+      Success bred excess. With little quality control, the market flooded with rushed games and too many look‑alike consoles. High‑profile disappointments—most infamously Pac‑Man for the 2600 and E.T. the Extra‑Terrestrial—shook consumer confidence. Retailers were left with mountains of unsold stock, prices collapsed, and the North American video game industry crashed in 1983.
+
+      Atari was hit especially hard. The company wrote off massive losses, laid off staff, and the brand that had defined home gaming suddenly looked fragile. The “landfill” legend—unsold cartridges buried in New Mexico—became a symbol of the bust.
+
+  - title: "🏁 Late‑Life Reinventions and Legacy"
+    content: |
+      Even after the crash, the 2600 proved resilient. Atari released slimmer revisions, budget reissues, and new cartridges well into the late 1980s. Meanwhile, Nintendo revived the industry with the NES, and Sega joined the console race—but the 2600’s influence endured.
+
+      The 2600 taught developers to squeeze magic out of minimal hardware, inspired whole genres, and established cartridges, controllers, and living‑room play as the heart of console gaming. Its design constraints still challenge and inspire homebrew creators today.
+
+  - title: "📚 What you should take away"
+    list:
+      - "Atari’s arcade success funded a bold, cartridge‑driven home console"
+      - "The 2600’s minimal hardware demanded ingenious programming"
+      - "Third‑party studios (like Activision) reshaped the business"
+      - "Oversupply and low quality control fueled the 1983 crash"
+      - "The 2600’s legacy lives on in design, culture, and homebrew scenes"
+
+  - title: "🎯 Assignment"
+    content: |
+      Get a feel for the era and the catalog:
+    ordered_list:
+      - "Skim a short history of Atari and list three decisions that made the 2600 possible"
+      - "Watch gameplay of two iconic 2600 titles (e.g., Adventure, Pitfall!, Yars’ Revenge) and note how they work within constraints"
+      - "Find one example of a rushed or poorly received 2600 release and summarize why it missed the mark"
+
+navigation:
+  previous:
+    title: "Back to Home"
+    url: "../index.html"
+  next:
+    title: "Next: 6502 Assembly"
+    url: "lesson.html?id=2"

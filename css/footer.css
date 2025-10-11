@@ -1,0 +1,14 @@
+/* Footer Styles */
+
+.footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 3px solid var(--atari-orange);
+    background: rgba(139, 69, 19, 0.2);
+    margin-top: 60px;
+}
+
+.footer p {
+    color: var(--atari-light);
+    font-size: 0.6rem;
+}

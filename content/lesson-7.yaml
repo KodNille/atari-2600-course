@@ -1,0 +1,18 @@
+lesson:
+  number: 7
+  title: "Collision Detection"
+  subtitle: "Implementing game physics"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "💥 Hardware Collision Detection"
+    content: |
+      Utilize the TIA's built-in collision detection system.
+
+navigation:
+  previous:
+    title: "Previous: Input & Controllers"
+    url: "lesson.html?id=6"
+  next:
+    title: "Next: Game Logic"
+    url: "lesson.html?id=8"

@@ -1,0 +1,663 @@
+/* Atari 2600 Course Wbody {
+    font-family: var(--readable-font);
+    background: linear-gradient(45deg, var(--atari-dark), #1a0f0a);
+    color: var(--atari-light);
+    line-height: 1.7;
+    position: relative;
+    min-height: 100vh;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="48" viewBox="0 0 12 48"><rect x="0" y="0" width="12" height="48" fill="%23FFFFFF" stroke="%23000000" stroke-width="1"/><rect x="2" y="2" width="8" height="44" fill="%23F5DEB3"/></svg>') 6 24, auto;
+}yles */
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --atari-brown: #8B4513;
+    --atari-orange: #FF6600;
+    --atari-yellow: #FFD700;
+    --atari-red: #DC143C;
+    --atari-dark: #2F1B14;
+    --atari-light: #F5DEB3;
+    --retro-green: #00FF00;
+    --retro-blue: #0080FF;
+    --scan-line: rgba(0, 255, 0, 0.03);
+    --pixel-font: 'Press Start 2P', monospace;
+    --readable-font: 'Consolas', 'Monaco', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
+}
+
+body {
+    font-family: var(--pixel-font);
+    background: linear-gradient(45deg, var(--atari-dark), #1a0f0a);
+    color: var(--atari-light);
+    line-height: 1.6;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Scanlines Effect */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--scan-line) 2px,
+        var(--scan-line) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+    animation: flicker 0.15s infinite linear alternate;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    100% { opacity: 0.97; }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Header */
+.header {
+    padding: 20px 0;
+    border-bottom: 3px solid var(--atari-orange);
+    background: rgba(139, 69, 19, 0.8);
+    position: relative;
+    z-index: 100;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 40px;
+}
+
+.logo h1 {
+    font-size: 2rem;
+    color: var(--atari-orange);
+    text-shadow: 
+        3px 3px 0px var(--atari-red),
+        6px 6px 0px rgba(0,0,0,0.5);
+    margin-bottom: 0;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo h1 .subtitle {
+    font-size: 0.7rem;
+    color: var(--atari-yellow);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+.login-button {
+    background: var(--atari-red);
+    color: var(--atari-light);
+    padding: 12px 24px;
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    border: 2px solid var(--atari-yellow);
+    transition: all 0.3s ease;
+    font-family: var(--pixel-font);
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="48" viewBox="0 0 12 48"><rect x="0" y="0" width="12" height="48" fill="%23FFD700" stroke="%23FF6600" stroke-width="2"/><rect x="3" y="3" width="6" height="42" fill="%23FFFFFF"/></svg>') 6 24, pointer;
+}
+
+.login-button:hover {
+    background: var(--atari-yellow);
+    color: var(--atari-dark);
+    border-color: var(--atari-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 var(--atari-dark);
+}
+
+/* Navigation */
+.nav-menu {
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.nav-toggle {
+    display: none;
+    background: var(--atari-orange);
+    border: none;
+    color: var(--atari-dark);
+    font-size: 1.2rem;
+    padding: 10px;
+    border: 2px solid var(--atari-yellow);
+}
+
+.nav-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    align-items: stretch;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-link {
+    color: var(--atari-light);
+    text-decoration: none;
+    padding: 10px 5px;
+    border: 2px solid transparent;
+    background: rgba(255, 102, 0, 0.1);
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+    display: block;
+    line-height: 1.3;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: var(--atari-orange);
+    color: var(--atari-dark);
+    border-color: var(--atari-yellow);
+    text-shadow: none;
+}
+
+.nav-link.login-link {
+    background: var(--atari-red);
+    color: var(--atari-light);
+}
+
+.nav-link.login-link:hover {
+    background: var(--atari-yellow);
+    color: var(--atari-dark);
+}
+
+/* Main Content */
+.main-content {
+    padding: 60px 0;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 80px 0;
+    background: radial-gradient(circle, rgba(255, 102, 0, 0.1) 0%, transparent 70%);
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    color: var(--atari-orange);
+    text-shadow: 4px 4px 0px var(--atari-red);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: var(--atari-yellow);
+    margin-bottom: 40px;
+}
+
+/* Atari Console Animation */
+.atari-console {
+    margin: 40px auto;
+    width: 200px;
+    height: 120px;
+    position: relative;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { filter: drop-shadow(0 0 10px var(--atari-orange)); }
+    to { filter: drop-shadow(0 0 20px var(--atari-yellow)); }
+}
+
+.console-body {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(145deg, var(--atari-brown), #654321);
+    border: 3px solid var(--atari-orange);
+    border-radius: 10px;
+    position: relative;
+}
+
+.console-switches {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+.switch {
+    width: 12px;
+    height: 20px;
+    background: var(--atari-dark);
+    border: 1px solid var(--atari-orange);
+    border-radius: 2px;
+}
+
+.cartridge-slot {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background: var(--atari-dark);
+    border: 2px solid var(--atari-orange);
+    border-radius: 5px 5px 0 0;
+}
+
+/* Course Overview */
+.course-overview {
+    margin: 100px 0;
+    text-align: center;
+}
+
+.course-overview h3 {
+    font-size: 1.8rem;
+    color: var(--atari-orange);
+    margin-bottom: 60px;
+    text-shadow: 2px 2px 0px var(--atari-red);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.feature {
+    background: rgba(139, 69, 19, 0.2);
+    border: 2px solid var(--atari-orange);
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 102, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.feature h4 {
+    color: var(--atari-yellow);
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.feature p {
+    font-size: 0.9rem;
+    color: var(--atari-light);
+    font-family: var(--readable-font);
+}
+
+/* Lesson Grid */
+.lesson-grid {
+    margin: 100px 0;
+}
+
+.lesson-grid h3 {
+    font-size: 1.8rem;
+    color: var(--atari-orange);
+    margin-bottom: 60px;
+    text-align: center;
+    text-shadow: 2px 2px 0px var(--atari-red);
+}
+
+.lessons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.lesson-card {
+    background: linear-gradient(145deg, rgba(139, 69, 19, 0.3), rgba(47, 27, 20, 0.5));
+    border: 2px solid var(--atari-orange);
+    padding: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--atari-yellow);
+    background: linear-gradient(145deg, rgba(255, 102, 0, 0.2), rgba(139, 69, 19, 0.3));
+}
+
+.lesson-number {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--atari-red);
+    color: var(--atari-light);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 2px solid var(--atari-yellow);
+}
+
+.lesson-card h4 {
+    color: var(--atari-yellow);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    padding-right: 30px;
+}
+
+.lesson-card p {
+    color: var(--atari-light);
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-family: var(--readable-font);
+}
+
+.lesson-link {
+    display: inline-block;
+    background: var(--atari-orange);
+    color: var(--atari-dark);
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    border: 2px solid var(--atari-yellow);
+    transition: all 0.3s ease;
+}
+
+.lesson-link:hover {
+    background: var(--atari-yellow);
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 3px solid var(--atari-orange);
+    background: rgba(139, 69, 19, 0.2);
+    margin-top: 60px;
+}
+
+.footer p {
+    color: var(--atari-light);
+    font-size: 0.6rem;
+}
+
+/* Keep headings and key elements in pixel font */
+h1, h2, h3, h4, h5, h6, .logo, .nav-link, .lesson-link, .copy-btn, button {
+    font-family: var(--pixel-font);
+}
+
+/* Make main content paragraphs larger and more readable */
+p, li {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    font-family: var(--readable-font);
+    font-weight: 500;
+}
+
+/* Specific improvements for lesson content */
+.lesson-content p {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.lesson-content ul, .lesson-content ol {
+    font-size: 1rem;
+    line-height: 1.8;
+    font-family: var(--readable-font);
+}
+
+/* Hero text improvements */
+.hero-subtitle {
+    font-size: 1.2rem;
+    font-family: var(--readable-font);
+}
+
+/* Lesson Page Styles */
+.lesson-content {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+.lesson-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.lesson-title {
+    font-size: 2rem;
+    color: var(--atari-orange);
+    text-shadow: 3px 3px 0px var(--atari-red);
+    margin-bottom: 15px;
+}
+
+p.lesson-subtitle {
+    color: var(--atari-yellow);
+    font-size: 1.5rem;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    margin: 40px 0;
+    border: 3px solid var(--atari-orange);
+    background: var(--atari-dark);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.lesson-section {
+    margin: 60px 0;
+}
+
+.lesson-section h3 {
+    color: var(--atari-orange);
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--atari-orange);
+    padding-bottom: 15px;
+}
+
+.lesson-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    font-family: var(--readable-font);
+}
+
+/* Code Highlighting */
+.code-block {
+    background: var(--atari-dark);
+    border: 2px solid var(--atari-orange);
+    padding: 30px;
+    margin: 40px 0;
+    overflow-x: auto;
+    position: relative;
+    border-radius: 5px;
+}
+
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--atari-orange);
+    border: 1px solid var(--atari-yellow);
+    color: var(--atari-dark);
+    padding: 5px 10px;
+    font-size: 0.5rem;
+    border-radius: 3px;
+    font-family: var(--pixel-font);
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+    background: var(--atari-yellow);
+    transform: scale(1.05);
+}
+
+.copy-btn.copied {
+    background: var(--retro-green);
+    color: var(--atari-dark);
+}
+
+.code-block pre {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    color: var(--atari-yellow);
+    text-shadow: none;
+    padding-right: 80px;
+    line-height: 1.6;
+}
+
+/* Assembly syntax highlighting */
+.asm-instruction { color: var(--atari-yellow); font-weight: bold; }
+.asm-register { color: var(--atari-orange); }
+.asm-immediate { color: var(--retro-blue); }
+.asm-address { color: var(--atari-red); }
+.asm-comment { color: #888; font-style: italic; }
+.asm-label { color: var(--atari-orange); font-weight: bold; }
+.asm-directive { color: var(--atari-yellow); }
+.asm-number { color: var(--retro-blue); }
+
+.lesson-image {
+    max-width: 100%;
+    height: auto;
+    border: 3px solid var(--atari-orange);
+    margin: 20px 0;
+    border-radius: 5px;
+    filter: sepia(20%) contrast(1.2);
+}
+
+/* Responsive Design */
+@media (min-width: 1400px) {
+    .nav-list {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+@media (min-width: 1100px) and (max-width: 1399px) {
+    .nav-list {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1099px) {
+    .nav-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 899px) {
+    .nav-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .header-top {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .logo h1 {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+    
+    .logo h1 .subtitle {
+        font-size: 0.6rem;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .nav-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(139, 69, 19, 0.95);
+        grid-template-columns: 1fr;
+        padding: 20px;
+        border: 2px solid var(--atari-orange);
+        z-index: 1000;
+    }
+    
+    .nav-list.active {
+        display: grid;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lessons {
+        grid-template-columns: 1fr;
+    }
+    
+    .lesson-title {
+        font-size: 1.5rem;
+    }
+}

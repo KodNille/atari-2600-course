@@ -1,0 +1,18 @@
+lesson:
+  number: 11
+  title: "Testing & Debugging"
+  subtitle: "Tools and techniques for debugging"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "🔍 Debugging Atari Games"
+    content: |
+      Essential debugging tools and techniques for Atari 2600 development.
+
+navigation:
+  previous:
+    title: "Previous: Advanced Techniques"
+    url: "lesson.html?id=10"
+  next:
+    title: "Next: Publishing"
+    url: "lesson.html?id=12"

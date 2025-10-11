@@ -1,0 +1,43 @@
+/* Logo Styles */
+
+.logo h1 {
+    font-size: 2rem;
+    color: var(--atari-orange);
+    text-shadow: 
+        3px 3px 0px var(--atari-red),
+        6px 6px 0px rgba(0,0,0,0.5);
+    margin-bottom: 0;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo h1 .subtitle {
+    font-size: 0.7rem;
+    color: var(--atari-yellow);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+/* Login Button */
+.login-button {
+    background: var(--atari-red);
+    color: var(--atari-light);
+    padding: 12px 24px;
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    border: 2px solid var(--atari-yellow);
+    transition: all 0.3s ease;
+    font-family: var(--pixel-font);
+}
+
+.login-button:hover {
+    background: var(--atari-yellow);
+    color: var(--atari-dark);
+    border-color: var(--atari-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 var(--atari-dark);
+}

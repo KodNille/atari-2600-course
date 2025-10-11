@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Atari 2600 Course</title>
+    <!-- Base styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <!-- Header components -->
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/logo.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <!-- Page components -->
+    <link rel="stylesheet" href="css/main-content.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <!-- Responsive -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>ATARI 2600</h1>
+                <p>Game Development Course</p>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <button class="nav-toggle" id="navToggle">☰</button>
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="lessons/lesson-1.html" class="nav-link">Lesson 1: Introduction</a></li>
+                    <li><a href="lessons/lesson-2.html" class="nav-link">Lesson 2: 6502 Assembly</a></li>
+                    <li><a href="lessons/lesson-3.html" class="nav-link">Lesson 3: TIA Graphics</a></li>
+                    <li><a href="login.html" class="nav-link login-link active">Login</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="login-container" style="max-width: 400px; margin: 60px auto; padding: 40px; background: rgba(139, 69, 19, 0.3); border: 3px solid var(--atari-orange); text-align: center;">
+                <h2 style="color: var(--atari-orange); font-size: 1.5rem; margin-bottom: 30px; text-shadow: 2px 2px 0px var(--atari-red);">PLAYER LOGIN</h2>
+                
+                <div class="atari-joystick" style="margin: 30px auto; width: 80px; height: 100px; position: relative;">
+                    <div style="width: 60px; height: 60px; background: var(--atari-dark); border: 3px solid var(--atari-orange); border-radius: 50%; margin: 0 auto; position: relative;">
+                        <div style="width: 20px; height: 20px; background: var(--atari-red); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                    </div>
+                    <div style="width: 30px; height: 40px; background: var(--atari-brown); border: 2px solid var(--atari-orange); margin: 5px auto 0; border-radius: 0 0 10px 10px;"></div>
+                </div>
+                
+                <form class="login-form" style="margin-top: 30px;">
+                    <div style="margin-bottom: 20px;">
+                        <label for="username" style="display: block; color: var(--atari-yellow); font-size: 0.7rem; margin-bottom: 10px;">USERNAME:</label>
+                        <input type="text" id="username" name="username" style="width: 100%; padding: 10px; background: var(--atari-dark); border: 2px solid var(--atari-orange); color: var(--retro-green); font-family: var(--pixel-font); font-size: 0.7rem;" placeholder="ENTER PLAYER NAME">
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <label for="password" style="display: block; color: var(--atari-yellow); font-size: 0.7rem; margin-bottom: 10px;">PASSWORD:</label>
+                        <input type="password" id="password" name="password" style="width: 100%; padding: 10px; background: var(--atari-dark); border: 2px solid var(--atari-orange); color: var(--retro-green); font-family: var(--pixel-font); font-size: 0.7rem;" placeholder="••••••••">
+                    </div>
+                    
+                    <button type="submit" class="login-btn" style="width: 100%; padding: 15px; background: var(--atari-orange); border: 2px solid var(--atari-yellow); color: var(--atari-dark); font-family: var(--pixel-font); font-size: 0.8rem; cursor: pointer; margin-bottom: 20px; transition: all 0.3s ease;">
+                        START GAME
+                    </button>
+                    
+                    <div class="login-options" style="font-size: 0.6rem; color: var(--atari-light);">
+                        <a href="#" style="color: var(--atari-yellow); text-decoration: none; margin-right: 20px;">FORGOT PASSWORD?</a>
+                        <a href="#" style="color: var(--atari-yellow); text-decoration: none;">REGISTER PLAYER</a>
+                    </div>
+                </form>
+                
+                <div class="demo-notice" style="margin-top: 40px; padding: 20px; background: rgba(255, 102, 0, 0.1); border: 1px solid var(--atari-yellow); border-radius: 5px;">
+                    <p style="font-size: 0.6rem; color: var(--atari-yellow); margin-bottom: 10px;">🎮 DEMO MODE ACTIVE</p>
+                    <p style="font-size: 0.5rem; color: var(--atari-light); line-height: 1.6;">
+                        Login functionality is not yet implemented. You can access all lessons without authentication for now. 
+                        <br><br>
+                        <a href="index.html" style="color: var(--atari-orange); text-decoration: none;">← Return to Course</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Atari 2600 Game Development Course. Ready Player One!</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Login form styling enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.querySelector('.login-btn');
+            const inputs = document.querySelectorAll('input');
+            
+            // Add hover effects
+            loginBtn.addEventListener('mouseenter', function() {
+                this.style.background = 'var(--atari-yellow)';
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            loginBtn.addEventListener('mouseleave', function() {
+                this.style.background = 'var(--atari-orange)';
+                this.style.transform = 'scale(1)';
+            });
+            
+            // Add focus effects to inputs
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = 'var(--atari-yellow)';
+                    this.style.boxShadow = '0 0 10px var(--atari-orange)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.borderColor = 'var(--atari-orange)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // Handle form submission (demo)
+            document.querySelector('.login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('🎮 DEMO MODE: Login not implemented yet!\n\nYou can access all lessons from the home page.');
+            });
+        });
+    </script>
+</body>
+</html>

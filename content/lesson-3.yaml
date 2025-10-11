@@ -1,0 +1,332 @@
+lesson:
+  number: 3
+  title: "TIA Graphics Chip"
+  subtitle: "Understanding the Television Interface Adaptor"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "📺 The TIA Chip"
+    content: |
+      The TIA (Television Interface Adaptor) is the heart of Atari 2600 graphics and sound. It's a custom chip that generates video signals in real-time, with no frame buffer. This means every pixel must be generated exactly when the TV expects it!
+      
+      Key TIA capabilities:
+    list:
+      - "2 Player sprites (8 pixels wide each)"
+      - "2 Missile sprites (1-8 pixels wide each)"
+      - "1 Ball sprite (1-8 pixels wide)"
+      - "Playfield background (20 pixels wide, mirrored or repeated)"
+      - "128 colors available (but limited per scanline)"
+      - "Hardware collision detection"
+      - "2-channel sound generation"
+    images:
+      - src: "../images/tia-objects.png"
+        alt: "TIA Graphics Objects"
+        style: "width: 100%; max-width: 600px; display: block; margin: 20px auto;"
+
+  - title: "🎨 TIA Color System"
+    content: |
+      The TIA uses a unique color system with 128 colors (16 hues × 8 luminance levels):
+    code_blocks:
+      - language: "assembly"
+        title: "6502 ASSEMBLY"
+        content: |
+          ; TIA COLOR FORMAT: XXXH HLLL
+          ; XXX = unused (always 0)
+          ; HH = hue (00-15): gray, gold, orange, red, pink, purple, 
+          ;                   blue, cyan, green, yellow-green, etc.
+          ; LLL = luminance (000-111): brightness level
+
+          ; COMMON COLORS
+          COLUBK = $00    ; Background color register
+          COLUPF = $01    ; Playfield color register  
+          COLUP0 = $02    ; Player 0 color register
+          COLUP1 = $03    ; Player 1 color register
+          COLUM0 = $04    ; Missile 0 color register
+          COLUM1 = $05    ; Missile 1 color register
+
+          ; Example colors:
+              lda #$00    ; Black
+              sta COLUBK
+              
+              lda #$0E    ; White  
+              sta COLUPF
+              
+              lda #$32    ; Orange (hue 3, luminance 2)
+              sta COLUP0
+              
+              lda #$94    ; Green (hue 9, luminance 4)
+              sta COLUP1
+
+  - title: "🧱 Playfield Graphics"
+    content: |
+      The playfield creates the background and basic shapes. It's 20 pixels wide and can be mirrored or repeated to fill the screen:
+    code_blocks:
+      - language: "assembly"
+        title: "6502 ASSEMBLY"
+        content: |
+          ; PLAYFIELD REGISTERS
+          PF0 = $0D    ; Bits 4-7 control pixels 0-3 (reversed!)
+          PF1 = $0E    ; Bits 0-7 control pixels 4-11 (normal order)
+          PF2 = $0F    ; Bits 0-7 control pixels 12-19 (reversed!)
+
+          ; PLAYFIELD CONTROL
+          CTRLPF = $0A
+          ; Bit 0: REF (reflect playfield)
+          ; Bit 1: SCORE (different colors for each half)
+          ; Bit 2: PFP (playfield priority over players)
+          ; Bits 4-5: BALL size (1, 2, 4, or 8 pixels wide)
+
+          ; SIMPLE WALL EXAMPLE
+          InitPlayfield:
+              lda #$F0        ; PF0: ####.... (top 4 pixels on)
+              sta PF0
+              
+              lda #$FF        ; PF1: ######## (all 8 pixels on)
+              sta PF1
+              
+              lda #$0F        ; PF2: ....#### (bottom 4 pixels on)
+              sta PF2
+              
+              lda #%00000001  ; Enable playfield reflection
+              sta CTRLPF
+              
+              lda #$2E        ; Yellow color
+              sta COLUPF
+              
+              rts
+    images:
+      - src: "../images/playfield-example.png"
+        alt: "Playfield wall pattern"
+        style: "width: 100%; max-width: 400px; display: block; margin: 20px auto;"
+
+  - title: "👾 Player Sprites"
+    content: |
+      Players are 8-pixel wide sprites that can be positioned anywhere horizontally. They're the main game objects:
+    code_blocks:
+      - language: "assembly"
+        title: "6502 ASSEMBLY"
+        content: |
+          ; PLAYER SPRITE DATA (8 bytes for 8-pixel high sprite)
+          PlayerSprite:
+              .byte #%00111100  ; Line 0:   ####
+              .byte #%01111110  ; Line 1:  ######
+              .byte #%11111111  ; Line 2: ########
+              .byte #%11111111  ; Line 3: ########  
+              .byte #%11111111  ; Line 4: ########
+              .byte #%11111111  ; Line 5: ########
+              .byte #%01111110  ; Line 6:  ######
+              .byte #%00111100  ; Line 7:   ####
+
+          ; DRAWING A PLAYER SPRITE
+          DrawPlayer:
+              ldy #7          ; Start from bottom of sprite
+              
+          DrawPlayerLoop:
+              lda PlayerSprite,Y  ; Get sprite data
+              sta WSYNC           ; Wait for horizontal sync
+              sta GRP0            ; Set player 0 graphics
+              dey                 ; Move to next line
+              bpl DrawPlayerLoop  ; Continue if Y >= 0
+              
+              lda #0              ; Clear sprite after drawing
+              sta GRP0
+              
+              rts
+
+          ; PLAYER POSITIONING (tricky timing-based system)
+          PositionPlayer:
+              ; X position in A register (0-159)
+              sec                 ; Set carry flag
+              sta WSYNC           ; Start at beginning of scanline
+              
+          DivideLoop:
+              sbc #15             ; Subtract 15
+              bcs DivideLoop      ; Keep going while carry set
+              
+              eor #7              ; Calculate fine position
+              asl                 ; Shift left 4 times
+              asl
+              asl  
+              asl
+              sta HMP0            ; Set fine position
+              
+              sta RESP0           ; Reset player position
+              sta WSYNC           ; Wait
+              sta HMOVE           ; Apply fine positioning
+              
+              rts
+
+  - title: "🎮 Complete TIA Example"
+    content: |
+      Here's a complete program that demonstrates TIA graphics with a playfield maze and moving player:
+    code_blocks:
+      - language: "assembly"
+        title: "6502 ASSEMBLY"
+        content: |
+          processor 6502
+          include "vcs.h"
+          include "macro.h"
+
+          seg.u vars
+          org $80
+          
+          PlayerX     ds 1    ; Player X position
+          PlayerY     ds 1    ; Player Y position (scanline)
+
+          seg code
+          org $F000
+
+          ; Sprite data for player (simple square)
+          PlayerSprite:
+              .byte #%11111111
+              .byte #%10000001  
+              .byte #%10000001
+              .byte #%10000001
+              .byte #%10000001
+              .byte #%10000001
+              .byte #%10000001
+              .byte #%11111111
+
+          Start:
+              CLEAN_START
+              
+              ; Initialize player position
+              lda #80         ; Middle of screen
+              sta PlayerX
+              lda #96         ; Middle height
+              sta PlayerY
+              
+              ; Set up playfield (simple border)
+              lda #$F0
+              sta PF0
+              lda #$01        ; Just leftmost pixel
+              sta PF1  
+              lda #$80        ; Just rightmost pixel
+              sta PF2
+              
+              ; Set colors
+              lda #$0E        ; White playfield
+              sta COLUPF
+              lda #$42        ; Red player
+              sta COLUP0
+              lda #$00        ; Black background
+              sta COLUBK
+
+          MainLoop:
+              ; Vertical sync
+              lda #2
+              sta VSYNC
+              REPEAT 3
+                  sta WSYNC
+              REPEND
+              lda #0
+              sta VSYNC
+              
+              ; Vertical blank - position player
+              lda #2
+              sta VBLANK
+              
+              ; Position player horizontally
+              lda PlayerX
+              jsr PositionPlayer
+              
+              REPEAT 37
+                  sta WSYNC
+              REPEND
+              lda #0
+              sta VBLANK
+              
+              ; Draw visible screen
+              ldx #0          ; Scanline counter
+              
+          VisibleLoop:
+              ; Check if we're at player Y position
+              cpx PlayerY
+              bcc NotPlayerArea       ; Below player
+              
+              txa
+              sec
+              sbc PlayerY
+              cmp #8                  ; Player is 8 lines tall
+              bcs NotPlayerArea       ; Above player
+              
+              ; We're in player area - draw sprite
+              tay
+              lda PlayerSprite,Y
+              sta WSYNC
+              sta GRP0
+              jmp NextScanline
+              
+          NotPlayerArea:
+              lda #0          ; No player graphics
+              sta WSYNC
+              sta GRP0
+              
+          NextScanline:
+              inx
+              cpx #192
+              bne VisibleLoop
+              
+              ; Overscan
+              lda #2
+              sta VBLANK
+              REPEAT 30
+                  sta WSYNC
+              REPEND
+              
+              jmp MainLoop
+
+          ; Subroutine to position player (simplified version)
+          PositionPlayer:
+              sec
+              sta WSYNC
+          DivLoop:
+              sbc #15
+              bcs DivLoop
+              eor #7
+              asl
+              asl
+              asl
+              asl
+              sta HMP0
+              sta RESP0
+              sta WSYNC
+              sta HMOVE
+              rts
+
+              org $FFFC
+              .word Start
+              .word Start
+    content_after_code: |
+      This creates a red square player sprite inside a white border playfield!
+    images:
+      - src: "../images/player-in-maze.png"
+        alt: "Player sprite in playfield border"
+        style: "width: 100%; max-width: 400px; display: block; margin: 20px auto;"
+
+  - title: "📚 Key Concepts Learned"
+    list:
+      - "TIA graphics objects: players, missiles, ball, playfield"
+      - "Color system with hue and luminance"
+      - "Playfield construction and mirroring"
+      - "Sprite data representation and drawing"
+      - "Horizontal positioning system"
+      - "Real-time graphics generation constraints"
+
+  - title: "🎯 Assignment"
+    content: |
+      Experiment with TIA graphics:
+    ordered_list:
+      - "Create different sprite patterns for the player"
+      - "Design a more complex playfield maze pattern"
+      - "Add a second player sprite (Player 1)"
+      - "Experiment with different color combinations"
+      - "Try enabling playfield reflection or score mode"
+
+navigation:
+  previous:
+    title: "Previous: 6502 Assembly"
+    url: "lesson.html?id=2"
+  next:
+    title: "Next: Sprites & Players"
+    url: "lesson.html?id=4"

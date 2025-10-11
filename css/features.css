@@ -1,0 +1,51 @@
+/* Course Overview and Features */
+
+.course-overview {
+    margin: 100px 0;
+    text-align: center;
+}
+
+.course-overview h3 {
+    font-size: 1.8rem;
+    color: var(--atari-orange);
+    margin-bottom: 60px;
+    text-shadow: 2px 2px 0px var(--atari-red);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.feature {
+    background: rgba(139, 69, 19, 0.2);
+    border: 2px solid var(--atari-orange);
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 102, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.feature h4 {
+    color: var(--atari-yellow);
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.feature p {
+    font-size: 0.9rem;
+    color: var(--atari-light);
+    font-family: var(--readable-font);
+}

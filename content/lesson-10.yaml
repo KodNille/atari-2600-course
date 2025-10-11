@@ -1,0 +1,18 @@
+lesson:
+  number: 10
+  title: "Advanced Techniques"
+  subtitle: "Optimization and special effects"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "🚀 Advanced Programming"
+    content: |
+      Learn advanced techniques used by professional developers.
+
+navigation:
+  previous:
+    title: "Previous: Memory Management"
+    url: "lesson.html?id=9"
+  next:
+    title: "Next: Testing & Debugging"
+    url: "lesson.html?id=11"

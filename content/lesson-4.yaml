@@ -1,0 +1,23 @@
+lesson:
+  number: 4
+  title: "Sprites & Players"
+  subtitle: "Creating and animating game objects" 
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "🎮 Advanced Player Graphics"
+    content: |
+      Learn how to create complex sprites, animate them, and manage multiple players on screen.
+    list:
+      - "Multi-frame sprite animation"
+      - "Player duplication and stretching"
+      - "Advanced positioning techniques"
+      - "Sprite collision detection"
+
+navigation:
+  previous:
+    title: "Previous: TIA Graphics"
+    url: "lesson.html?id=3"
+  next:
+    title: "Next: Sound & Music"
+    url: "lesson.html?id=5"

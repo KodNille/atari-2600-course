@@ -1,0 +1,56 @@
+/* Atari Console Animation */
+
+.atari-console {
+    margin: 40px auto;
+    width: 200px;
+    height: 120px;
+    position: relative;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { filter: drop-shadow(0 0 10px var(--atari-orange)); }
+    to { filter: drop-shadow(0 0 20px var(--atari-yellow)); }
+}
+
+.console-body {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(145deg, var(--atari-brown), #654321);
+    border: 3px solid var(--atari-orange);
+    border-radius: 10px;
+    position: relative;
+}
+
+.console-switches {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+.switch {
+    width: 12px;
+    height: 20px;
+    background: var(--atari-dark);
+    border: 1px solid var(--atari-orange);
+    border-radius: 2px;
+}
+
+.cartridge-slot {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background: var(--atari-dark);
+    border: 2px solid var(--atari-orange);
+    border-radius: 5px 5px 0 0;
+}
+
+.console-image {
+   width: 70%;
+   height: auto;
+}

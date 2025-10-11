@@ -1,0 +1,18 @@
+lesson:
+  number: 12
+  title: "Publishing Your Game"
+  subtitle: "Creating ROMs and distribution"
+  video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+sections:
+  - title: "📦 Game Distribution"
+    content: |
+      Learn how to package and distribute your completed Atari 2600 games.
+
+navigation:
+  previous:
+    title: "Previous: Testing & Debugging"
+    url: "lesson.html?id=11"
+  next:
+    title: "Course Complete!"
+    url: "../index.html"
