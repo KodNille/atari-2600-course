@@ -155,16 +155,15 @@ class LessonLoader {
         
         // Images
         if (section.images) {
-            section.images.forEach(image => {
-                const img = document.createElement('img');
-                img.src = image.src;
-                img.alt = image.alt;
-                img.className = 'lesson-image';
-                if (image.style) {
-                    img.style.cssText = image.style;
-                }
-                sectionDiv.appendChild(img);
-            });
+            const img = document.createElement('img');
+            img.src = section.images.src;
+            img.alt = section.images.alt;
+            img.width = section.images.width;
+            img.className = 'lesson-image';
+            if (section.images.style) {
+                img.style.cssText = section.images.style;
+            }
+            sectionDiv.appendChild(img);
         }
         
         return sectionDiv;

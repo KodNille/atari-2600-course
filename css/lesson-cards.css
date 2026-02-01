@@ -65,19 +65,3 @@
     font-family: var(--readable-font);
 }
 
-.lesson-link {
-    display: inline-block;
-    background: var(--atari-orange);
-    color: var(--atari-dark);
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    border: 2px solid var(--atari-yellow);
-    transition: all 0.3s ease;
-}
-
-.lesson-link:hover {
-    background: var(--atari-yellow);
-    transform: scale(1.05);
-}

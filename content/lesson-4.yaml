@@ -1,23 +1,255 @@
 lesson:
   number: 4
-  title: "Sprites & Players"
-  subtitle: "Creating and animating game objects" 
+  title: "The 6502 & 6507 CPUs"
+  subtitle: "Understanding the brain of the Atari 2600"
   video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
 
 sections:
-  - title: "🎮 Advanced Player Graphics"
+  - title: "🧠 What is a CPU?"
     content: |
-      Learn how to create complex sprites, animate them, and manage multiple players on screen.
+      The CPU (Central Processing Unit) is the "brain" of any computer. It reads instructions from memory, performs calculations, makes decisions, and controls all the other hardware. The Atari 2600 uses a processor from the MOS Technology 6502 family—specifically, a cost-reduced version called the 6507.
+      
+      Think of the CPU as a very fast, very simple worker who can only do one tiny task at a time. It can:
     list:
-      - "Multi-frame sprite animation"
-      - "Player duplication and stretching"
-      - "Advanced positioning techniques"
-      - "Sprite collision detection"
+      - "Load a number from memory"
+      - "Store a number to memory"
+      - "Add, subtract, or compare numbers"
+      - "Make decisions (jump to different instructions based on conditions)"
+      - "Shift bits left or right"
+      - "Perform logical operations (AND, OR, XOR)"
+    content_after: |
+      The 6502 executes millions of these simple operations per second, and by combining them cleverly, you create games!
+
+  - title: "🔧 The 6502: A Revolutionary Chip"
+    content: |
+      The MOS Technology 6502 was released in 1975 and revolutionized computing by being powerful yet affordable. At $25, it cost a fraction of competing processors like Intel's 8080 ($179) or Motorola's 6800 ($175).
+      
+      **Where you'll find the 6502:**
+    list:
+      - "**Apple II** — One of the first successful personal computers"
+      - "**Commodore 64** — The best-selling single computer model ever"
+      - "**Nintendo Entertainment System (NES)** — Used a modified 6502 called the 2A03"
+      - "**BBC Micro** — Educational computer used in UK schools"
+      - "**Atari 8-bit computers** — 400, 800, XL, and XE series"
+    content_after: |
+      The 6502's elegant design, small transistor count, and low cost made it the processor of choice for the home computer revolution of the late 1970s and early 1980s.
+
+  - title: "⚡ The 6507: Atari's Cost-Cutting Choice"
+    content: |
+      The Atari 2600 doesn't actually use a full 6502—it uses the **6507**, a stripped-down version designed to reduce costs. Here are the key differences:
+      
+      **6502 (full version):**
+    list:
+      - "40-pin chip"
+      - "16 address lines (can access 64KB of memory: $0000 to $FFFF)"
+      - "Costs more to manufacture"
+      - "Has interrupt pins for hardware signals"
+    
+  - content: |
+      **6507 (Atari 2600 version):**
+    list:
+      - "28-pin chip (12 fewer pins!)"
+      - "Only 13 address lines (can access just 8KB of memory: $0000 to $1FFF)"
+      - "Cheaper to manufacture and integrate"
+      - "No interrupt pins (no NMI or IRQ support)"
+    content_after: |
+      **Why this matters:** The 6507's limited address space (8KB) meant Atari had to be clever with memory mapping. The 2600's memory layout uses mirrors and clever addressing to work within these constraints. The lack of interrupts meant programmers had to use precise timing instead of relying on hardware signals.
+      
+      Despite these limitations, the 6507 was perfect for the 2600: cheaper, smaller, and still powerful enough to create amazing games!
+
+  - title: "📊 The Three Registers: The CPU's Workspace"
+    content: |
+      Registers are tiny, super-fast storage locations inside the CPU itself. Think of them as the CPU's "scratch paper"—small spaces where it holds numbers while working. The 6502/6507 has three main registers, each one byte (8 bits) wide:
+
+  - title: "🅰️ Register A (Accumulator)"
+    content: |
+      **The Accumulator** is the primary workhorse of the CPU. Almost all math and logic operations involve the Accumulator.
+      
+      **What it does:**
+    list:
+      - "Holds values for arithmetic (addition, subtraction)"
+      - "Holds values for logical operations (AND, OR, XOR)"
+      - "Stores values before writing them to memory"
+      - "Receives values when loading from memory"
+      - "Holds comparison results"
+    content_after: |
+      **Example use:** To add two numbers together, you'd load the first number into the Accumulator, then add the second number to it. The result stays in the Accumulator, where you can use it or store it to memory.
+      
+      The Accumulator is called "A" in assembly language. You'll use it constantly—it's involved in probably 80% of all operations!
+
+  - title: "✖️ Register X (Index Register X)"
+    content: |
+      **Index Register X** is used primarily for counting and accessing arrays of data.
+      
+      **What it does:**
+    list:
+      - "Counts loops (counting from 0 to N or N down to 0)"
+      - "Indexes into arrays (accessing the Xth item in a list)"
+      - "Holds temporary values"
+      - "Used for certain addressing modes"
+    content_after: |
+      **Example use:** If you have sprite data stored in memory and want to draw line 5 of the sprite, you'd put 5 in X, then use X to access that specific byte of data.
+      
+      X is perfect for loops: set X to 10, do something, decrease X by 1, repeat until X reaches 0. This pattern is everywhere in 6502 programming!
+
+  - title: "✖️ Register Y (Index Register Y)"
+    content: |
+      **Index Register Y** works almost exactly like X, but with slightly different addressing modes available.
+      
+      **What it does:**
+    list:
+      - "Counts loops (just like X)"
+      - "Indexes into arrays (just like X)"
+      - "Holds temporary values"
+      - "Used for certain addressing modes that X cannot access"
+    content_after: |
+      **When to use Y instead of X:** Functionally, X and Y are very similar. You might use both when you need two counters at once (for example, one for horizontal position, one for vertical position). Some specific addressing modes only work with Y, making it necessary in certain situations.
+      
+      **Practical tip:** Since X and Y are so similar, many programmers pick one as their "default" for loops and counting, then use the other when they need a second counter.
+
+  - title: "🚩 The Status Register: The CPU's Decision Maker"
+    content: |
+      The **Status Register** (also called the **Processor Status** or **P register**) is special—it doesn't hold a regular number. Instead, it holds 8 individual flags (bits) that track the results of operations and control how the CPU behaves.
+      
+      Each flag is either ON (1) or OFF (0), and the CPU automatically sets these flags after most operations. You use these flags to make decisions in your program.
+      
+      **The 8 flags are:**
+    list:
+      - "**N** - Negative Flag"
+      - "**V** - Overflow Flag"
+      - "**-** - (unused)"
+      - "**B** - Break Flag"
+      - "**D** - Decimal Mode Flag"
+      - "**I** - Interrupt Disable Flag"
+      - "**Z** - Zero Flag"
+      - "**C** - Carry Flag"
+    content_after: |
+      Let's explore the most important ones in detail!
+
+  - title: "🏴 The Zero Flag (Z)"
+    content: |
+      The **Zero Flag** tells you if the last operation resulted in zero.
+      
+      **How it works:**
+    list:
+      - "Z = 1 (ON) if the result was exactly zero"
+      - "Z = 0 (OFF) if the result was anything else"
+    content_after: |
+      **Why it's useful:** You can test if two numbers are equal by subtracting one from the other. If the result is zero, they were equal! You can also check if a counter has reached zero in a loop.
+      
+      **Real-world example:** You're drawing a sprite 8 lines tall. You count down from 7 to 0, drawing each line. When the counter hits 0, the Zero Flag turns ON, telling you the sprite is finished.
+
+  - title: "➕ The Carry Flag (C)"
+    content: |
+      The **Carry Flag** indicates when a number is too big to fit in 8 bits, or when subtraction needs to borrow.
+      
+      **How it works:**
+    list:
+      - "In addition: C = 1 if the result exceeded 255 (overflowed)"
+      - "In subtraction: C = 0 if you needed to borrow (result went negative)"
+      - "In comparisons: C = 1 if the first number was greater than or equal to the second"
+      - "In shifts: C receives the bit that was shifted out"
+    content_after: |
+      **Why it's useful:** The Carry flag lets you do comparisons (is A bigger than B?) and work with numbers larger than 8 bits by doing multi-byte arithmetic.
+      
+      **Real-world example:** You're positioning a sprite horizontally. You need to divide the X position by 15 repeatedly, subtracting 15 each time. When the Carry flag goes OFF (meaning the number went below 0), you know you've subtracted too many times and can stop.
+
+  - title: "➖ The Negative Flag (N)"
+    content: |
+      The **Negative Flag** tells you if the most significant bit (bit 7) of the result is set.
+      
+      **How it works:**
+    list:
+      - "N = 1 if bit 7 is ON (the number is $80-$FF, or 128-255)"
+      - "N = 0 if bit 7 is OFF (the number is $00-$7F, or 0-127)"
+    content_after: |
+      **Why it's useful:** In signed arithmetic (where numbers can be negative), bit 7 indicates the sign. If you're treating numbers as signed, N = 1 means the number is negative.
+      
+      But even in unsigned arithmetic, the Negative flag is useful for quickly testing if bit 7 is set, which can represent various game states.
+      
+      **Real-world example:** You store collision flags in a byte, with bit 7 representing "player hit by enemy." After checking collisions, you can instantly test the Negative flag to see if bit 7 is set, without needing to mask out the other bits.
+
+  - title: "🔀 The Overflow Flag (V)"
+    content: |
+      The **Overflow Flag** detects when signed arithmetic goes wrong.
+      
+      **How it works:**
+    list:
+      - "V = 1 if a signed addition or subtraction produced an invalid result"
+      - "Example: Adding two positive signed numbers and getting a negative result"
+      - "Example: Adding two negative signed numbers and getting a positive result"
+    content_after: |
+      **Why it exists:** The Overflow flag is specifically for signed math (numbers from -128 to +127). Most Atari 2600 programming uses unsigned numbers (0 to 255), so you'll rarely need this flag.
+      
+      **When you might use it:** If you're tracking velocity or direction with signed numbers (like -5 for moving left, +5 for moving right), the Overflow flag helps detect when calculations go out of range.
+
+  - title: "🎛️ Control Flags: D, I, and B"
+    content: |
+      These flags change how the CPU behaves, rather than reporting results:
+      
+      **Decimal Mode Flag (D):**
+    list:
+      - "D = 1: Arithmetic works in decimal (base 10) instead of binary"
+      - "D = 0: Normal binary arithmetic"
+      - "**Atari 2600 note:** Decimal mode is usually OFF, and many programmers never use it"
+    
+  - content: |
+      **Interrupt Disable Flag (I):**
+    list:
+      - "I = 1: Ignore interrupt requests (IRQ)"
+      - "I = 0: Allow interrupts"
+      - "**Atari 2600 note:** The 6507 has no interrupt pins, so this flag is irrelevant!"
+    
+  - content: |
+      **Break Flag (B):**
+    list:
+      - "Distinguishes between a software interrupt (BRK instruction) and a hardware interrupt"
+      - "**Atari 2600 note:** Rarely used, since the 6507 has no interrupts"
+
+  - title: "🎯 How Flags Work Together"
+    content: |
+      Flags are automatically set by the CPU after most operations. You don't manually set them (usually)—they just update based on what happened.
+      
+      **The typical workflow:**
+    ordered_list:
+      - "Perform an operation (add, subtract, load, etc.)"
+      - "The CPU automatically updates the relevant flags"
+      - "You make a decision based on the flags (jump if zero, jump if carry set, etc.)"
+    content_after: |
+      **Example scenario:** Looping through sprite data
+      
+      You load a counter with 8 (for 8 lines of sprite). Each time through the loop, you decrease the counter by 1. The CPU sets the Zero flag when the counter hits 0. You check the Zero flag—if it's OFF, jump back to the top of the loop. If it's ON, continue to the next part of the program.
+      
+      This is the fundamental pattern of 6502 programming: do something, check a flag, make a decision!
+
+  - title: "📚 What You Should Take Away"
+    list:
+      - "The **6502** is a legendary 8-bit CPU that powered many classic computers and consoles"
+      - "The **6507** is a cheaper, cut-down version with less memory access and no interrupts"
+      - "The three registers are: **A** (Accumulator), **X** (Index), and **Y** (Index)"
+      - "**A** does most of the math and logic work"
+      - "**X** and **Y** are used for counting, loops, and array indexing"
+      - "The **Status Register** has 8 flags that automatically track operation results"
+      - "**Zero Flag (Z):** Result was zero"
+      - "**Carry Flag (C):** Addition overflowed or subtraction didn't borrow"
+      - "**Negative Flag (N):** Bit 7 is set (signed negative or just high bit on)"
+      - "Flags let the CPU make decisions: branch if zero, branch if carry set, etc."
+
+  - title: "🎯 Assignment"
+    content: |
+      Understand the registers and flags conceptually:
+    ordered_list:
+      - "Draw a diagram of the 6507 showing the three registers (A, X, Y) and the 8 status flags"
+      - "For each register (A, X, Y), write down three different uses in your own words"
+      - "Explain in your own words: What happens to the Zero flag when you subtract 42 from 42?"
+      - "Explain: Why would the Carry flag turn ON when you add 200 + 100?"
+      - "Research: Find one other device or computer that used a 6502 CPU (besides the ones mentioned)"
+      - "Think: Why would Atari choose the cheaper 6507 even though it could only address 8KB of memory?"
 
 navigation:
   previous:
-    title: "Previous: TIA Graphics"
+    title: "Previous: Binary & Hexadecimal"
     url: "lesson.html?id=3"
   next:
-    title: "Next: Sound & Music"
+    title: "Next: Memory & Addressing"
     url: "lesson.html?id=5"

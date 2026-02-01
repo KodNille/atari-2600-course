@@ -1,332 +1,276 @@
 lesson:
   number: 3
-  title: "TIA Graphics Chip"
-  subtitle: "Understanding the Television Interface Adaptor"
+  title: "Binary & Hexadecimal"
+  subtitle: "Understanding the language computers speak"
   video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
 
 sections:
-  - title: "📺 The TIA Chip"
+  - title: "� Why Do We Need Different Number Systems?"
     content: |
-      The TIA (Television Interface Adaptor) is the heart of Atari 2600 graphics and sound. It's a custom chip that generates video signals in real-time, with no frame buffer. This means every pixel must be generated exactly when the TV expects it!
+      When you program the Atari 2600, you're talking directly to the hardware. Computers don't understand decimal numbers (0-9) like we do—they only understand electricity being ON or OFF. That's where binary comes in!
       
-      Key TIA capabilities:
+      But binary numbers get really long and hard to read, so programmers invented hexadecimal as a shorthand. Think of it like this:
     list:
-      - "2 Player sprites (8 pixels wide each)"
-      - "2 Missile sprites (1-8 pixels wide each)"
-      - "1 Ball sprite (1-8 pixels wide)"
-      - "Playfield background (20 pixels wide, mirrored or repeated)"
-      - "128 colors available (but limited per scanline)"
-      - "Hardware collision detection"
-      - "2-channel sound generation"
-    images:
-      - src: "../images/tia-objects.png"
-        alt: "TIA Graphics Objects"
-        style: "width: 100%; max-width: 600px; display: block; margin: 20px auto;"
+      - "**Decimal** (base 10): What humans naturally use (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)"
+      - "**Binary** (base 2): What computers actually use (just 0 and 1)"
+      - "**Hexadecimal** (base 16): A convenient shorthand for programmers"
+    content_after: |
+      By the end of this lesson, you'll be fluent in all three!
 
-  - title: "🎨 TIA Color System"
+  - title: "💡 Binary: The Language of ON and OFF"
     content: |
-      The TIA uses a unique color system with 128 colors (16 hues × 8 luminance levels):
-    code_blocks:
-      - language: "assembly"
-        title: "6502 ASSEMBLY"
-        content: |
-          ; TIA COLOR FORMAT: XXXH HLLL
-          ; XXX = unused (always 0)
-          ; HH = hue (00-15): gray, gold, orange, red, pink, purple, 
-          ;                   blue, cyan, green, yellow-green, etc.
-          ; LLL = luminance (000-111): brightness level
+      Binary is the most fundamental number system in computing. It only has two digits: **0** (OFF) and **1** (ON). Every number, letter, color, and sound in the Atari 2600 is ultimately represented as a series of 0s and 1s.
+      
+      **How Binary Counting Works:**
+      
+      In decimal, each position is worth 10 times more than the one to its right (1, 10, 100, 1000...). In binary, each position is worth 2 times more (1, 2, 4, 8, 16, 32, 64, 128...).
+      
+      Let's count in binary from 0 to 15:
+    list:
+      - "0000 = 0 (all switches OFF)"
+      - "0001 = 1 (only the 1s place is ON)"
+      - "0010 = 2 (only the 2s place is ON)"
+      - "0011 = 3 (2 + 1 = 3)"
+      - "0100 = 4 (only the 4s place is ON)"
+      - "0101 = 5 (4 + 1 = 5)"
+      - "0110 = 6 (4 + 2 = 6)"
+      - "0111 = 7 (4 + 2 + 1 = 7)"
+      - "1000 = 8 (only the 8s place is ON)"
+      - "1001 = 9 (8 + 1 = 9)"
+      - "1010 = 10 (8 + 2 = 10)"
+      - "1011 = 11 (8 + 2 + 1 = 11)"
+      - "1100 = 12 (8 + 4 = 12)"
+      - "1101 = 13 (8 + 4 + 1 = 13)"
+      - "1110 = 14 (8 + 4 + 2 = 14)"
+      - "1111 = 15 (8 + 4 + 2 + 1 = 15)"
 
-          ; COMMON COLORS
-          COLUBK = $00    ; Background color register
-          COLUPF = $01    ; Playfield color register  
-          COLUP0 = $02    ; Player 0 color register
-          COLUP1 = $03    ; Player 1 color register
-          COLUM0 = $04    ; Missile 0 color register
-          COLUM1 = $05    ; Missile 1 color register
-
-          ; Example colors:
-              lda #$00    ; Black
-              sta COLUBK
-              
-              lda #$0E    ; White  
-              sta COLUPF
-              
-              lda #$32    ; Orange (hue 3, luminance 2)
-              sta COLUP0
-              
-              lda #$94    ; Green (hue 9, luminance 4)
-              sta COLUP1
-
-  - title: "🧱 Playfield Graphics"
+  - title: "🧮 Converting Binary to Decimal"
     content: |
-      The playfield creates the background and basic shapes. It's 20 pixels wide and can be mirrored or repeated to fill the screen:
+      To convert any binary number to decimal, just add up the position values where there's a 1.
+      
+      **Example: What is 10110101 in decimal?**
+      
+      First, label each position with its value (from right to left):
     code_blocks:
-      - language: "assembly"
-        title: "6502 ASSEMBLY"
+      - language: "text"
+        title: "BINARY CONVERSION"
         content: |
-          ; PLAYFIELD REGISTERS
-          PF0 = $0D    ; Bits 4-7 control pixels 0-3 (reversed!)
-          PF1 = $0E    ; Bits 0-7 control pixels 4-11 (normal order)
-          PF2 = $0F    ; Bits 0-7 control pixels 12-19 (reversed!)
-
-          ; PLAYFIELD CONTROL
-          CTRLPF = $0A
-          ; Bit 0: REF (reflect playfield)
-          ; Bit 1: SCORE (different colors for each half)
-          ; Bit 2: PFP (playfield priority over players)
-          ; Bits 4-5: BALL size (1, 2, 4, or 8 pixels wide)
-
-          ; SIMPLE WALL EXAMPLE
-          InitPlayfield:
-              lda #$F0        ; PF0: ####.... (top 4 pixels on)
-              sta PF0
-              
-              lda #$FF        ; PF1: ######## (all 8 pixels on)
-              sta PF1
-              
-              lda #$0F        ; PF2: ....#### (bottom 4 pixels on)
-              sta PF2
-              
-              lda #%00000001  ; Enable playfield reflection
-              sta CTRLPF
-              
-              lda #$2E        ; Yellow color
-              sta COLUPF
-              
-              rts
-    images:
-      - src: "../images/playfield-example.png"
-        alt: "Playfield wall pattern"
-        style: "width: 100%; max-width: 400px; display: block; margin: 20px auto;"
-
-  - title: "👾 Player Sprites"
-    content: |
-      Players are 8-pixel wide sprites that can be positioned anywhere horizontally. They're the main game objects:
-    code_blocks:
-      - language: "assembly"
-        title: "6502 ASSEMBLY"
-        content: |
-          ; PLAYER SPRITE DATA (8 bytes for 8-pixel high sprite)
-          PlayerSprite:
-              .byte #%00111100  ; Line 0:   ####
-              .byte #%01111110  ; Line 1:  ######
-              .byte #%11111111  ; Line 2: ########
-              .byte #%11111111  ; Line 3: ########  
-              .byte #%11111111  ; Line 4: ########
-              .byte #%11111111  ; Line 5: ########
-              .byte #%01111110  ; Line 6:  ######
-              .byte #%00111100  ; Line 7:   ####
-
-          ; DRAWING A PLAYER SPRITE
-          DrawPlayer:
-              ldy #7          ; Start from bottom of sprite
-              
-          DrawPlayerLoop:
-              lda PlayerSprite,Y  ; Get sprite data
-              sta WSYNC           ; Wait for horizontal sync
-              sta GRP0            ; Set player 0 graphics
-              dey                 ; Move to next line
-              bpl DrawPlayerLoop  ; Continue if Y >= 0
-              
-              lda #0              ; Clear sprite after drawing
-              sta GRP0
-              
-              rts
-
-          ; PLAYER POSITIONING (tricky timing-based system)
-          PositionPlayer:
-              ; X position in A register (0-159)
-              sec                 ; Set carry flag
-              sta WSYNC           ; Start at beginning of scanline
-              
-          DivideLoop:
-              sbc #15             ; Subtract 15
-              bcs DivideLoop      ; Keep going while carry set
-              
-              eor #7              ; Calculate fine position
-              asl                 ; Shift left 4 times
-              asl
-              asl  
-              asl
-              sta HMP0            ; Set fine position
-              
-              sta RESP0           ; Reset player position
-              sta WSYNC           ; Wait
-              sta HMOVE           ; Apply fine positioning
-              
-              rts
-
-  - title: "🎮 Complete TIA Example"
-    content: |
-      Here's a complete program that demonstrates TIA graphics with a playfield maze and moving player:
-    code_blocks:
-      - language: "assembly"
-        title: "6502 ASSEMBLY"
-        content: |
-          processor 6502
-          include "vcs.h"
-          include "macro.h"
-
-          seg.u vars
-          org $80
+          Position:  128  64  32  16   8   4   2   1
+          Binary:      1   0   1   1   0   1   0   1
           
-          PlayerX     ds 1    ; Player X position
-          PlayerY     ds 1    ; Player Y position (scanline)
+          Add the positions with 1s:
+          128 + 32 + 16 + 4 + 1 = 181
+          
+          So 10110101 in binary = 181 in decimal!
+    content_after: |
+      **Practice:** Try converting 11001100 yourself. (Answer: 128+64+8+4 = 204)
 
-          seg code
-          org $F000
+  - title: "🔄 Converting Decimal to Binary"
+    content: |
+      To go the other way (decimal to binary), repeatedly divide by 2 and keep track of the remainders.
+      
+      **Example: Convert 45 to binary**
+    code_blocks:
+      - language: "text"
+        title: "DECIMAL TO BINARY"
+        content: |
+          45 ÷ 2 = 22 remainder 1   ← rightmost bit
+          22 ÷ 2 = 11 remainder 0
+          11 ÷ 2 = 5  remainder 1
+           5 ÷ 2 = 2  remainder 1
+           2 ÷ 2 = 1  remainder 0
+           1 ÷ 2 = 0  remainder 1   ← leftmost bit
+          
+          Read the remainders from BOTTOM to TOP: 101101
+          
+          So 45 in decimal = 00101101 in binary!
+          
+          Verify: 32 + 8 + 4 + 1 = 45 ✓
+    content_after: |
+      **Quick Tip:** The Atari 2600's 6502 processor works with 8-bit numbers, meaning every number is represented with 8 binary digits (bits). That's why we write binary numbers with leading zeros, like 00101101 instead of just 101101.
 
-          ; Sprite data for player (simple square)
-          PlayerSprite:
-              .byte #%11111111
-              .byte #%10000001  
-              .byte #%10000001
-              .byte #%10000001
-              .byte #%10000001
-              .byte #%10000001
-              .byte #%10000001
-              .byte #%11111111
-
-          Start:
-              CLEAN_START
-              
-              ; Initialize player position
-              lda #80         ; Middle of screen
-              sta PlayerX
-              lda #96         ; Middle height
-              sta PlayerY
-              
-              ; Set up playfield (simple border)
-              lda #$F0
-              sta PF0
-              lda #$01        ; Just leftmost pixel
-              sta PF1  
-              lda #$80        ; Just rightmost pixel
-              sta PF2
-              
-              ; Set colors
-              lda #$0E        ; White playfield
-              sta COLUPF
-              lda #$42        ; Red player
-              sta COLUP0
-              lda #$00        ; Black background
-              sta COLUBK
-
-          MainLoop:
-              ; Vertical sync
-              lda #2
-              sta VSYNC
-              REPEAT 3
-                  sta WSYNC
-              REPEND
-              lda #0
-              sta VSYNC
-              
-              ; Vertical blank - position player
-              lda #2
-              sta VBLANK
-              
-              ; Position player horizontally
-              lda PlayerX
-              jsr PositionPlayer
-              
-              REPEAT 37
-                  sta WSYNC
-              REPEND
-              lda #0
-              sta VBLANK
-              
-              ; Draw visible screen
-              ldx #0          ; Scanline counter
-              
-          VisibleLoop:
-              ; Check if we're at player Y position
-              cpx PlayerY
-              bcc NotPlayerArea       ; Below player
-              
-              txa
-              sec
-              sbc PlayerY
-              cmp #8                  ; Player is 8 lines tall
-              bcs NotPlayerArea       ; Above player
-              
-              ; We're in player area - draw sprite
-              tay
-              lda PlayerSprite,Y
-              sta WSYNC
-              sta GRP0
-              jmp NextScanline
-              
-          NotPlayerArea:
-              lda #0          ; No player graphics
-              sta WSYNC
-              sta GRP0
-              
-          NextScanline:
-              inx
-              cpx #192
-              bne VisibleLoop
-              
-              ; Overscan
-              lda #2
-              sta VBLANK
-              REPEAT 30
-                  sta WSYNC
-              REPEND
-              
-              jmp MainLoop
-
-          ; Subroutine to position player (simplified version)
-          PositionPlayer:
-              sec
-              sta WSYNC
-          DivLoop:
-              sbc #15
-              bcs DivLoop
-              eor #7
-              asl
-              asl
-              asl
-              asl
-              sta HMP0
-              sta RESP0
-              sta WSYNC
-              sta HMOVE
-              rts
-
-              org $FFFC
-              .word Start
-              .word Start
-    content_after_code: |
-      This creates a red square player sprite inside a white border playfield!
-    images:
-      - src: "../images/player-in-maze.png"
-        alt: "Player sprite in playfield border"
-        style: "width: 100%; max-width: 400px; display: block; margin: 20px auto;"
-
-  - title: "📚 Key Concepts Learned"
+  - title: "🎯 Hexadecimal: The Programmer's Shorthand"
+    content: |
+      Binary numbers get really long really fast. The number 255 in binary is 11111111—that's hard to read and easy to miscount! Hexadecimal (or "hex" for short) solves this problem.
+      
+      Hexadecimal is base 16, which means it has 16 digits: **0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F**
+      
+      Wait, letters as numbers? Yes! Here's what they mean:
     list:
-      - "TIA graphics objects: players, missiles, ball, playfield"
-      - "Color system with hue and luminance"
-      - "Playfield construction and mirroring"
-      - "Sprite data representation and drawing"
-      - "Horizontal positioning system"
-      - "Real-time graphics generation constraints"
+      - "**A** = 10"
+      - "**B** = 11"
+      - "**C** = 12"
+      - "**D** = 13"
+      - "**E** = 14"
+      - "**F** = 15"
+    content_after: |
+      So we can count in hex: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F, 10, 11, 12... 1F, 20...
+      
+      **Why hex is perfect for computers:** Each hex digit represents exactly 4 binary bits! This makes conversion super easy.
+
+  - title: "🔀 Converting Between Binary and Hexadecimal"
+    content: |
+      The beauty of hexadecimal is how cleanly it maps to binary. Every hex digit equals exactly 4 bits.
+      
+      **The Hex-to-Binary Chart (memorize this!):**
+    code_blocks:
+      - language: "text"
+        title: "HEX ↔ BINARY CONVERSION"
+        content: |
+          HEX    BINARY    DECIMAL
+          ---    ------    -------
+           0  =  0000   =    0
+           1  =  0001   =    1
+           2  =  0010   =    2
+           3  =  0011   =    3
+           4  =  0100   =    4
+           5  =  0101   =    5
+           6  =  0110   =    6
+           7  =  0111   =    7
+           8  =  1000   =    8
+           9  =  1001   =    9
+           A  =  1010   =   10
+           B  =  1011   =   11
+           C  =  1100   =   12
+           D  =  1101   =   13
+           E  =  1110   =   14
+           F  =  1111   =   15
+    content_after: |
+      **Example: Convert A7 (hex) to binary**
+      
+      Just look up each hex digit:
+      - A = 1010
+      - 7 = 0111
+      
+      Put them together: **10100111**
+      
+      **Example: Convert 11010110 (binary) to hex**
+      
+      Split into groups of 4 from the right:
+      - 1101 = D
+      - 0110 = 6
+      
+      Result: **D6**
+
+  - title: "💻 Hexadecimal in Atari Programming"
+    content: |
+      In 6502 assembly (the language of the Atari 2600), hex numbers are written with a **$** symbol in front. You'll see this everywhere!
+    code_blocks:
+      - language: "assembly"
+        title: "6502 ASSEMBLY EXAMPLES"
+        content: |
+          ; Different ways to write the same number (decimal 42):
+          
+          lda #42         ; Decimal notation (no prefix)
+          lda #$2A        ; Hexadecimal notation ($ prefix)
+          lda #%00101010  ; Binary notation (% prefix)
+          
+          ; All three lines do exactly the same thing!
+          
+          ; Common Atari 2600 memory addresses (always in hex):
+          
+          COLUBK = $09    ; Background color register
+          COLUPF = $08    ; Playfield color register
+          WSYNC  = $02    ; Wait for horizontal sync
+          
+          ; Setting a color in hex:
+          lda #$1E        ; Bright white color
+          sta COLUBK      ; Store in background color
+          
+          ; Hex is perfect for bit patterns:
+          lda #$F0        ; Binary: 11110000 (top 4 bits on)
+          lda #$0F        ; Binary: 00001111 (bottom 4 bits on)
+          lda #$AA        ; Binary: 10101010 (alternating bits)
+          lda #$55        ; Binary: 01010101 (opposite pattern)
+    content_after: |
+      **Why programmers love hex:** When you see **$FF**, you instantly know it's 11111111 in binary (all bits on) and 255 in decimal. Hex makes patterns obvious!
+
+  - title: "🧠 Converting Hexadecimal to Decimal"
+    content: |
+      Hex uses position values just like decimal and binary. Each position is worth 16 times more than the one to its right.
+      
+      **Example: Convert $B3 (hex) to decimal**
+    code_blocks:
+      - language: "text"
+        title: "HEX TO DECIMAL"
+        content: |
+          Position values:  16¹   16⁰
+          Hex digits:        B     3
+          
+          B = 11 in decimal
+          3 = 3 in decimal
+          
+          (11 × 16) + (3 × 1) = 176 + 3 = 179
+          
+          So $B3 = 179 in decimal
+    content_after: |
+      **For larger numbers:**
+      
+      **$1F4A** = (1 × 4096) + (15 × 256) + (4 × 16) + (10 × 1) = 4096 + 3840 + 64 + 10 = **8010**
+
+  - title: "🎨 Real-World Example: Atari Colors"
+    content: |
+      The Atari 2600 uses hexadecimal to define colors. Each color is a single byte with this format:
+    code_blocks:
+      - language: "text"
+        title: "ATARI COLOR FORMAT"
+        content: |
+          Binary:      XXXH HLLL
+          
+          XXX = unused (always 0)
+          HH  = hue (color): 00-15
+          LLL = luminance (brightness): 000-111
+          
+          EXAMPLE: Create an orange color
+          
+          Orange is hue 3, let's use medium brightness (4):
+          
+          Binary:   000 11 100
+          Hex:      $34
+          
+          In assembly:
+          lda #$34        ; Load orange color
+          sta COLUP0      ; Set player 0 to orange
+    content_after: |
+      Now when you see code like `lda #$1E`, you can decode it: hue 1 (gold), luminance 6 (bright) = bright gold!
+
+  - title: "🔢 Quick Reference: Common Powers"
+    content: |
+      Memorize these for fast mental math:
+    list:
+      - "**2⁰ = 1** | 2¹ = 2 | 2² = 4 | 2³ = 8"
+      - "**2⁴ = 16** | 2⁵ = 32 | 2⁶ = 64 | 2⁷ = 128"
+      - "**2⁸ = 256** (one byte can store 0-255)"
+      - "**16¹ = 16** | 16² = 256 | 16³ = 4096"
+      - "**$FF = 255** (all bits on, maximum byte value)"
+      - "**$00 = 0** (all bits off, minimum value)"
+      - "**$80 = 128** (only the highest bit on)"
+
+  - title: "📚 What You Should Take Away"
+    list:
+      - "**Binary** uses only 0 and 1, representing ON/OFF states in computer hardware"
+      - "Each binary position is worth double the one to its right (1, 2, 4, 8, 16...)"
+      - "**Hexadecimal** uses 0-9 and A-F (where A=10, F=15)"
+      - "Each hex digit represents exactly 4 binary bits (making conversion easy)"
+      - "In 6502 assembly, hex numbers use **$** prefix, binary uses **%** prefix"
+      - "The Atari 2600 works with 8-bit numbers (00000000 to 11111111 = $00 to $FF = 0 to 255)"
+      - "Hex makes bit patterns obvious: $F0 = 11110000, $AA = 10101010"
 
   - title: "🎯 Assignment"
     content: |
-      Experiment with TIA graphics:
+      Practice these conversions until they become second nature:
     ordered_list:
-      - "Create different sprite patterns for the player"
-      - "Design a more complex playfield maze pattern"
-      - "Add a second player sprite (Player 1)"
-      - "Experiment with different color combinations"
-      - "Try enabling playfield reflection or score mode"
+      - "Convert these binary numbers to decimal: 10011101, 01010101, 11110000"
+      - "Convert these decimal numbers to binary: 64, 127, 200"
+      - "Convert these hex numbers to binary: $3C, $A5, $FF"
+      - "Convert these binary numbers to hex: 11011001, 10101010, 00001111"
+      - "Convert these hex numbers to decimal: $7F, $C8, $2A"
+      - "What color is $92 in Atari format? (Hint: extract hue and luminance)"
 
 navigation:
   previous:
     title: "Previous: 6502 Assembly"
     url: "lesson.html?id=2"
   next:
-    title: "Next: Sprites & Players"
+    title: "Next: TIA Graphics Chip"
     url: "lesson.html?id=4"

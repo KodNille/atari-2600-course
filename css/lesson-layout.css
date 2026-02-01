@@ -8,7 +8,8 @@
 
 .lesson-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-top: 30px;   
+    margin-bottom: 60px;
 }
 
 .lesson-title {
@@ -58,8 +59,23 @@ p.lesson-subtitle {
 .lesson-image {
     max-width: 100%;
     height: auto;
-    border: 3px solid var(--atari-orange);
-    margin: 20px 0;
-    border-radius: 5px;
-    filter: sepia(20%) contrast(1.2);
+    margin: 20px auto;
+    display: block;
+}
+
+.lesson-link {
+    display: inline-block;
+    background: var(--atari-orange);
+    color: var(--atari-dark);
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border: 2px solid var(--atari-yellow);
+    transition: all 0.3s ease;
+}
+
+.lesson-link:hover {
+    background: var(--atari-yellow);
+    transform: scale(1.05);
 }

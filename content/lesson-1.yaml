@@ -5,7 +5,7 @@ lesson:
   video_url: "https://www.youtube.com/embed/C0DPdy98e4c"
 
 sections:
-  - title: "🎮 The Backstory: Before the 2600"
+  - title: "🎮 The Backstory: Before the 2600llll"
     content: |
       Atari began with two engineers and a big idea. In 1972, Nolan Bushnell and Ted Dabney founded Atari after experimenting with early coin‑op games like Computer Space. Their breakout hit, Pong, proved that simple, approachable gameplay could captivate millions. That arcade success gave Atari the vision—and the cash—to try something even bolder: bringing video games into the living room.
 
@@ -28,6 +28,11 @@ sections:
       - "1979 — Activision forms, created by ex‑Atari developers"
       - "1980 — Space Invaders on VCS ignites a sales boom"
       - "1982 — Massive growth, soaring cartridge sales, widespread licensing"
+
+  - images: 
+      src: "../images/atari-2600-console.png"
+      alt: "Atari 2600 console with joystick and paddle controllers"
+      width: 800
 
   - title: "🌊 Third‑Party Wave and Iconic Games"
     content: |
